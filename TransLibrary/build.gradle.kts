@@ -1,7 +1,7 @@
 plugins {
     id(GradlePluginId.AndroidLibrary)
     id(GradlePluginId.KotlinAndroid)
-    id(GradlePluginId.KotlinAndroidExtensions)
+    id(GradlePluginId.KotlinGradle)
 }
 
 android {
@@ -24,6 +24,11 @@ android {
             isMinifyEnabled = BuildTypeRelease.isMinifyEnabled
             proguardFiles("proguard-android.txt", "proguard-rules.pro")
         }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
 
@@ -50,4 +55,10 @@ dependencies {
     // kotlin
     implementation(LibraryDependencies.KotlinStd)
     implementation(LibraryDependencies.KotlinReflect)
+
+
+    api(LibraryDependencies.GlideIntegration) {
+        exclude(group = "com.squareup.okhttp3")
+    }
+    kapt(LibraryDependencies.GlideCompiler)
 }

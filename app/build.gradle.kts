@@ -90,4 +90,7 @@ dependencies {
     implementation(LibraryDependencies.KotlinReflect)
     implementation(LibraryDependencies.KotlinCoroutines)
     implementation(LibraryDependencies.KotlinCoroutinesAndroid)
+
+    // 自定义的GlideTransformation
+    implementation(LibraryDependencies.GlideTransformation)
 }

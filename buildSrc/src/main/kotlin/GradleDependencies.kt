@@ -23,6 +23,7 @@ object GradlePluginId {
     const val KotlinAndroid = "kotlin-android"
     const val KotlinAndroidExtensions = "kotlin-android-extensions"
     const val GradleUpdateVersion = "com.github.ben-manes.versions"
+    const val KotlinGradle = "kotlin-kapt"
 
 
     const val MavenGradle = "android-maven-gradle-plugin"

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SimpleDraweeView">
+
+        <eat-comment />
+
+        <!-- A drawable or color to be be used as a placeholder. -->
+        <attr name="placeholderImage" format="reference" />
+        <!-- Scale type of the placeholder image. Ignored if placeholderImage is not specified. -->
+        <attr name="placeholderImageScaleType">
+            <enum name="none" value="-1" />
+            <enum name="fitXY" value="0" />
+            <enum name="fitStart" value="1" />
+            <enum name="fitCenter" value="2" />
+            <enum name="fitEnd" value="3" />
+            <enum name="center" value="4" />
+            <enum name="centerInside" value="5" />
+            <enum name="centerCrop" value="6" />
+            <enum name="focusCrop" value="7" />
+            <enum name="fitBottomStart" value="8" />
+        </attr>
+
+        <!-- Rounding params -
+        Declares attributes for rounding shape, mode and border. -->
+        <!-- Round as circle. -->
+        <attr name="roundAsCircle" format="boolean" />
+        <!-- Rounded corner radius. Ignored if roundAsCircle is used. -->
+        <attr name="roundedCornerRadius" format="dimension" />
+        <attr name="roundTopLeft" format="boolean" />
+        <attr name="roundTopRight" format="boolean" />
+        <attr name="roundBottomRight" format="boolean" />
+        <attr name="roundBottomLeft" format="boolean" />
+
+        <attr name="roundTopLeftRadius" format="dimension" />
+        <attr name="roundTopRightRadius" format="dimension" />
+        <attr name="roundBottomRightRadius" format="dimension" />
+        <attr name="roundBottomLeftRadius" format="dimension" />
+
+        <!-- Rounding border width-->
+        <attr name="roundingBorderWidth" format="dimension" />
+        <!-- Rounding border color -->
+        <attr name="roundingBorderColor" format="color|reference" />
+
+    </declare-styleable>
+</resources>

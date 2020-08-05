@@ -22,7 +22,12 @@ object LibraryDependencies {
     const val KotlinCoroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${CoreVersion.CoroutinesAndroid}"
     const val KotlinCoroutinesAndroid= "org.jetbrains.kotlinx:kotlinx-coroutines-android:${CoreVersion.CoroutinesAndroid}"
 
+    // Glide
+    const val GlideIntegration = "com.github.bumptech.glide:okhttp3-integration:${LibraryVersion.GlideCompilerVersion}"
+    const val GlideCompiler = "com.github.bumptech.glide:compiler:${LibraryVersion.GlideCompilerVersion}"
 
+
+    const val GlideTransformation = "com.github.shejishi:GlideTransformation:${LibraryVersion.GlideTransformationVersion}"
 }
 
 
@@ -34,7 +39,10 @@ object LibraryVersion {
     const val MultidexVersion = "2.0.1"
     const val SupportVersion = "28.0.0"
 
-    const val GlideCompilerVersion = "4.9.0"
+    const val GlideCompilerVersion = "4.11.0"
+
+    // GlideTransformation
+    const val GlideTransformationVersion = "v1.0"
 }
 
 
