@@ -58,8 +58,6 @@ dependencies {
     implementation(LibraryDependencies.KotlinReflect)
 
 
-    api(LibraryDependencies.GlideIntegration) {
-        exclude(group = "com.squareup.okhttp3")
-    }
+    api(LibraryDependencies.GlideIntegration)
     kapt(LibraryDependencies.GlideCompiler)
 }

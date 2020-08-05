@@ -28,6 +28,8 @@ object LibraryDependencies {
 
 
     const val GlideTransformation = "com.github.shejishi:GlideTransformation:${LibraryVersion.GlideTransformationVersion}"
+
+    const val RecyclerView = "androidx.recyclerview:recyclerview:${LibraryVersion.RecyclerViewVersion}"
 }
 
 
@@ -43,6 +45,8 @@ object LibraryVersion {
 
     // GlideTransformation
     const val GlideTransformationVersion = "v1.0.2"
+
+    const val RecyclerViewVersion = "1.1.0"
 }
 
 

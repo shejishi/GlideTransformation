@@ -89,4 +89,6 @@ dependencies {
 
     // 自定义的GlideTransformation
 //    implementation(LibraryDependencies.GlideTransformation)
+
+    api(project(ModuleDependencies.TransformationLibrary))
 }

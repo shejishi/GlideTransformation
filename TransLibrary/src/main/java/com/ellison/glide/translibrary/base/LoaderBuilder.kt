@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.widget.ImageView
+import androidx.annotation.ColorInt
 import androidx.annotation.IntDef
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
 import com.ellison.glide.translibrary.ImageUtils
@@ -34,7 +35,13 @@ open class LoaderBuilder {
         const val DISK_CACHE_RESULT = 4 //只缓存变换后的图片
     }
 
-    @IntDef(DISK_CACHE_DEFAULT, DISK_CACHE_NONE, DISK_CACHE_ALL, DISK_CACHE_SOURCE, DISK_CACHE_RESULT)
+    @IntDef(
+        DISK_CACHE_DEFAULT,
+        DISK_CACHE_NONE,
+        DISK_CACHE_ALL,
+        DISK_CACHE_SOURCE,
+        DISK_CACHE_RESULT
+    )
     @Retention(AnnotationRetention.SOURCE)
     annotation class DiskCache
 
@@ -168,10 +175,21 @@ open class LoaderBuilder {
         return this
     }
 
+    fun borderWidth(borderWidth: Int?): LoaderBuilder {
+        this.borderWidth = borderWidth!!.toFloat()
+        return this
+    }
+
+    fun borderColor(@ColorInt borderColor: Int?): LoaderBuilder {
+        this.borderColor = borderColor!!
+        return this
+    }
+
     fun width(width: Int?): LoaderBuilder {
         this.width = width!!
         return this
     }
+
 
     fun height(height: Int?): LoaderBuilder {
         this.height = height!!

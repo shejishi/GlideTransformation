@@ -22,7 +22,7 @@ class SimpleDraweeView @JvmOverloads constructor(
     defStyleAttr: Int = -1
 ) : ImageView(context, attrs, defStyleAttr) {
     // 占位图  占位图的伸展方式
-    var placeHolderImage: Drawable
+    var placeHolderImage: Drawable?
     var placeHolderImageScaleType: Int
 
     // 圆角、 圆图
@@ -50,6 +50,7 @@ class SimpleDraweeView @JvmOverloads constructor(
 
     init {
         val ta = context.obtainStyledAttributes(attrs, R.styleable.SimpleDraweeView)
+
         placeHolderImage = ta.getDrawable(R.styleable.SimpleDraweeView_placeholderImage)
         placeHolderImageScaleType = ta.getInt(
             R.styleable.SimpleDraweeView_placeholderImageScaleType,
