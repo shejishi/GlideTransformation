@@ -1,3 +1,0 @@
-include ':TransLibrary'
-include ':app'
-rootProject.name = "GlideTransformation"
