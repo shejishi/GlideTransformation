@@ -42,7 +42,7 @@ object LibraryVersion {
     const val GlideCompilerVersion = "4.11.0"
 
     // GlideTransformation
-    const val GlideTransformationVersion = "v1.0.1"
+    const val GlideTransformationVersion = "v1.0.2"
 }
 
 

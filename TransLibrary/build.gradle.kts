@@ -2,6 +2,7 @@ plugins {
     id(GradlePluginId.AndroidLibrary)
     id(GradlePluginId.KotlinAndroid)
     id(GradlePluginId.KotlinGradle)
+    id(GradlePluginId.Maven)
 }
 
 android {

@@ -88,5 +88,5 @@ dependencies {
     implementation(LibraryDependencies.KotlinCoroutinesAndroid)
 
     // 自定义的GlideTransformation
-    implementation(LibraryDependencies.GlideTransformation)
+//    implementation(LibraryDependencies.GlideTransformation)
 }
