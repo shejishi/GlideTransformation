@@ -18,5 +18,6 @@ buildscript {
     dependencies {
         classpath(GradleOldWayPlugins.AndroidGradle)
         classpath(GradleOldWayPlugins.KotlinGradle)
+        classpath(GradleOldWayPlugins.MavenGradle)
     }
 }

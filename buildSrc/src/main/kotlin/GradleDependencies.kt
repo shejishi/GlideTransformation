@@ -11,6 +11,7 @@ object GradlePluginVersion {
     const val AndroidGradle = "3.6.2"
     const val GradleUpdateVersion = "0.28.0"
 
+    const val MavenVersion = "2.1"
     const val KotlinVersion = CoreVersion.KotlinVersion
 }
 
@@ -35,4 +36,6 @@ object GradleOldWayPlugins {
     //      kotlin-kapt
     const val KotlinGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:${GradlePluginVersion.KotlinVersion}"
 
+    //     maven
+    const val MavenGradle = "com.github.dcendents:android-maven-gradle-plugin:${GradlePluginVersion.MavenVersion}"
 }
