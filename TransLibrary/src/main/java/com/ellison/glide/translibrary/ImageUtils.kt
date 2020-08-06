@@ -1,7 +1,6 @@
 package com.ellison.glide.translibrary
 
 import android.app.Application
-import android.content.Context
 import android.graphics.Bitmap
 import android.widget.ImageView
 import com.ellison.glide.translibrary.base.Loader
