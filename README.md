@@ -59,7 +59,8 @@ override fun onBindViewHolder(holder: RecyclerHolder, position: Int) {
 }
 ```
 
-<br>
+<br/>
+
  ###### 一 、创建自定义`view`——`SimpleDraweeView`
 使用过`Fresco`的朋友对这个`SimpleDraweeView`很熟悉 ，是的，当初我们的项目也是使用`Fresco`，后面因为项目重构而使用`Glide`，但是使用`Fresco`的都知道这个库的侵入性非常大，对重构项目非常不友好，我们项目也到处使用了`<com.facebook.drawee.view.SimpleDraweeView />`， 一开始我想着将所有的`View`都替换掉，但是我全局搜索之后放弃了，因为有200+的文件，一个个改不是不可能，但是我这个人非常懒，对这种无意义的工作不太想浪费时间，所以我直接删除掉`Fresco`之后创建了自定义`SimpleDraweeView`:
 ```java
@@ -230,14 +231,125 @@ public class SimpleDraweeView extends ImageView {
         builder.into(view)
     }
 ```
-<br>
+
+<br/>
+
 # #边框原理
 最新版[Glide v4.11.0]([https://github.com/bumptech/glide](https://github.com/bumptech/glide)
 )查看源码，不同的变换`Transformation`由不同的变换实现类操作，`Transformation`是一个接口，具体有如下实现：
 ![transformation实现类.png](https://upload-images.jianshu.io/upload_images/2158207-9938432d8ca4a090.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-可以看到，圆形图片实现类为`CricleCrop`, 圆角实现类为：`RoundedCorners`、`GranularRoundedCorners`，圆角这两个第一个是所有的四个角弧度都一样，第二个则可以设置不同的角度，他们两都调用了`TransformationUtils#roundedCorners()`方法，阅读这几个类的源码，我们可以仿照其写一个`CircleBorderCrop`的`Transformation`：
-<br>
+可以看到，圆形图片实现类为`CricleCrop`, 圆角实现类为：`RoundedCorners`、`GranularRoundedCorners`，圆角这两个第一个是所有的四个角弧度都一样，第二个则可以设置不同的角度，他们两都调用了`TransformationUtils#roundedCorners()`方法，阅读这几个类的源码，我们可以仿照其写一个`CircleBorderCrop`的`Transformation`， 首先参照源码继承`BitmapTransformation`：
+
+
+```java
+public class CircleBorderTransformation extends BitmapTransformation {
+}
+```
+根据`Glide`文档，我们必须要实现`equals()`、`hashCode()`方法，以保证每张图片的唯一性与复用性，源码`GircleCrop`非常简单，直接调用了`TransformationUtils`中的方法：
+```
+/**
+ * A Glide {@link BitmapTransformation} to circle crop an image. Behaves similar to a {@link
+ * FitCenter} transform, but the resulting image is masked to a circle.
+ *
+ * <p>Uses a PorterDuff blend mode, see http://ssp.impulsetrain.com/porterduff.html.
+ */
+public class CircleCrop extends BitmapTransformation {
+  // The version of this transformation, incremented to correct an error in a previous version.
+  // See #455.
+  private static final int VERSION = 1;
+  private static final String ID = "com.bumptech.glide.load.resource.bitmap.CircleCrop." + VERSION;
+  private static final byte[] ID_BYTES = ID.getBytes(CHARSET);
+
+  // Bitmap doesn't implement equals, so == and .equals are equivalent here.
+  @SuppressWarnings("PMD.CompareObjectsWithEquals")
+  @Override
+  protected Bitmap transform(
+      @NonNull BitmapPool pool, @NonNull Bitmap toTransform, int outWidth, int outHeight) {
+    return TransformationUtils.circleCrop(pool, toTransform, outWidth, outHeight);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    return o instanceof CircleCrop;
+  }
+
+  @Override
+  public int hashCode() {
+    return ID.hashCode();
+  }
+
+  @Override
+  public void updateDiskCacheKey(@NonNull MessageDigest messageDigest) {
+    messageDigest.update(ID_BYTES);
+  }
+}
+```
+
+我们传入两个参数，边框与边框颜色，重写一下：
+```
+public class CircleBorderTransformation extends BitmapTransformation {
+    // The version of this transformation, incremented to correct an error in a previous version.
+    // See #455.
+    private static final int VERSION = 1;
+    private static final String ID = "com.yilahuo.driftbottle.loader.transform.CircleBorderTransformation." + VERSION;
+    private static final byte[] ID_BYTES = ID.getBytes(CHARSET);
+
+    private final float borderWidth;
+    private final int borderColor;
+
+    /**
+     * Provide the radii to round the corners of the bitmap.
+     */
+    public CircleBorderTransformation(float borderWidth, @ColorInt int borderColor) {
+        Preconditions.checkArgument(borderWidth > 0, "borderWidth must be more the 0.");
+
+        this.borderWidth = borderWidth;
+        this.borderColor = borderColor;
+
+    }
+
+    // Bitmap doesn't implement equals, so == and .equals are equivalent here.
+    @SuppressWarnings("PMD.CompareObjectsWithEquals")
+    @Override
+    protected Bitmap transform(
+            @NonNull BitmapPool pool, @NonNull Bitmap toTransform, int outWidth, int outHeight) {
+        // 自定义的 TransformationUtils
+        return GlideTransformationUtils.circleCrop(pool, toTransform, outWidth, outHeight, borderWidth, borderColor);
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof CircleBorderTransformation) {
+            CircleBorderTransformation other = (CircleBorderTransformation) o;
+            return borderWidth == other.borderWidth
+                    && borderColor == other.borderColor;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hashCode = Util.hashCode(ID.hashCode(), Util.hashCode(borderWidth));
+        return Util.hashCode(borderColor, hashCode);
+    }
+
+    @Override
+    public void updateDiskCacheKey(@NonNull MessageDigest messageDigest) {
+        messageDigest.update(ID_BYTES);
+
+        byte[] radiusData =
+                ByteBuffer.allocate(8)
+                        .putFloat(borderWidth)
+                        .putInt(borderColor)
+                        .array();
+        messageDigest.update(radiusData);
+    }
+}
+```
+具体的封装了查看我们自定义的`GlideTransformationUtils`类，该类也是和`Glide`框架一样的方法，我们实现了`equals()`、`hashCode()`、`updateDiskCacheKey()`，这几个方法也是参照类`GranularRoundedCorners`中的实现！
+
 
 
 
